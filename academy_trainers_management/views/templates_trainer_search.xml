@@ -2,67 +2,87 @@
 <odoo>
     <template id="trainers_search_template" name="Search Trainers">
         <t t-call="website.layout">
-            <div id="wrap" class="oe_structure oe_empty">
-                <section class="py-5">
+            <div id="wrap" class="oe_structure">
+                <section class="academy-trainer-search-section"> <!-- Apply new class -->
                     <div class="container">
-                        <h1 class="text-center mb-4">Search Trainers</h1>
+                        <h1>Search Trainers</h1>
                         <!-- Search Form -->
-                        <form method="GET" action="/trainers/search" class="mb-4">
-                            <div class="row">
+                        <form method="GET" action="/trainers/search" class="search-filters-form"> <!-- Apply new class -->
+                            <div class="row align-items-end"> <!-- align-items-end for button alignment -->
                                 <div class="col-md-3 form-group">
                                     <label for="search_name">Name</label>
-                                    <input type="text" name="name" class="form-control" t-att-value="search_criteria.get('name', '')" placeholder="Trainer Name"/>
+                                    <input type="text" name="name" id="search_name" class="form-control" t-att-value="search_criteria.get('name', '')" placeholder="Trainer Name"/>
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label for="search_domain">Domain</label>
-                                    <select name="domain_id" class="form-control">
+                                    <select name="domain_id" id="search_domain" class="form-control">
                                         <option value="">Any Domain</option>
                                         <t t-foreach="all_domains or request.env['academy.trainer.domain'].search([])" t-as="domain">
                                             <option t-att-value="domain.id" t-att-selected="domain.id == search_criteria.get('domain_id', '').isdigit() and domain.id == int(search_criteria.get('domain_id', '0'))"><t t-esc="domain.name"/></option>
                                         </t>
                                     </select>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="search_availability">Availability</label>
-                                    <select name="availability" class="form-control">
+                                    <select name="availability" id="search_availability" class="form-control">
                                         <option value="">Any</option>
                                         <option value="available" t-att-selected="search_criteria.get('availability') == 'available'">Available</option>
                                         <option value="unavailable" t-att-selected="search_criteria.get('availability') == 'unavailable'">Unavailable</option>
                                         <option value="partial" t-att-selected="search_criteria.get('availability') == 'partial'">Partially Available</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="search_location">Location</label>
-                                    <input type="text" name="location" class="form-control" t-att-value="search_criteria.get('location', '')" placeholder="City or Country"/>
+                                    <input type="text" name="location" id="search_location" class="form-control" t-att-value="search_criteria.get('location', '')" placeholder="City/Country"/>
+                                </div>
+                                <div class="col-md-2 form-group"> <!-- Column for button -->
+                                    <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-2">Search</button>
                         </form>
 
                         <!-- Search Results -->
-                        <div class="row">
-                            <t t-if="trainers">
-                                <t t-foreach="trainers" t-as="trainer">
-                                    <div class="col-md-4 mb-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><t t-esc="trainer.name"/></h5>
-                                                <p class="card-text">
-                                                    Domains: <t t-esc="', '.join([d.name for d in trainer.domains])"/><br/>
-                                                    Location: <t t-esc="trainer.location"/>
-                                                </p>
-                                                <a t-attf-href="/trainers/{{ trainer.id }}" class="btn btn-sm btn-info">View Profile</a>
+                        <div class="search-results-area mt-5">
+                            <div class="row">
+                                <t t-if="trainers">
+                                    <t t-foreach="trainers" t-as="trainer">
+                                        <!-- Use the same trainer-card styling from the listing page -->
+                                        <div class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                                            <div class="trainer-card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><t t-esc="trainer.name"/></h5>
+                                                    <p class="card-text">
+                                                        <t t-if="trainer.domains">
+                                                            <strong>Domains:</strong> <t t-esc="', '.join([d.name for d in trainer.domains])"/><br/>
+                                                        </t>
+                                                        <t t-if="trainer.location">
+                                                            <strong>Location:</strong> <t t-esc="trainer.location"/><br/>
+                                                        </t>
+                                                        <t t-if="trainer.availability">
+                                                            <strong>Availability:</strong> <t t-esc="dict(trainer._fields['availability'].selection).get(trainer.availability)"/>
+                                                        </t>
+                                                    </p>
+                                                    <a t-attf-href="/trainers/{{ trainer.id }}" class="btn btn-primary mt-auto">View Profile</a>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </t>
+                                </t>
+                                <t t-elif="has_search_criteria and not trainers"> <!-- Check if a search was performed and yielded no results -->
+                                    <div class="col-12">
+                                        <div class="no-results-message">
+                                            <p class="mb-0">No trainers found matching your criteria. Try broadening your search!</p>
                                         </div>
                                     </div>
                                 </t>
-                            </t>
-                            <t t-elif="search_criteria"> <!-- Check if a search was performed -->
-                                <div class="col-12">
-                                    <p class="text-center">No trainers found matching your criteria.</p>
-                                </div>
-                            </t>
-                            <!-- Add initial state message if needed, e.g., "Enter criteria to search for trainers." -->
+                                <t t-elif="not has_search_criteria and not trainers">
+                                     <div class="col-12">
+                                        <div class="no-results-message" style="background-color: #f8f9fa; box-shadow: none; border: 1px dashed #ccc;"> <!-- Lighter style for initial prompt -->
+                                            <p class="mb-0">Please enter your search criteria above to find trainers.</p>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
                         </div>
                     </div>
                 </section>

@@ -2,88 +2,127 @@
 <odoo>
     <template id="trainer_profile_form_template" name="Trainer Profile Form">
         <t t-call="website.layout">
-            <div id="wrap" class="oe_structure oe_empty">
-                <section class="py-5">
+            <div id="wrap" class="oe_structure">
+                <section class="academy-profile-form-section"> <!-- Apply new class -->
                     <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 offset-md-2">
-                                <h1 t-if="page_name == 'create_trainer_profile'">Create Your Trainer Profile</h1>
-                                <h1 t-if="page_name == 'edit_trainer_profile'">Edit Your Trainer Profile</h1>
-                                <form method="POST" t-attf-action="{{ '/trainers/profile/create' if page_name == 'create_trainer_profile' else '/trainers/profile/edit' }}" enctype="multipart/form-data">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <div class="form-group">
-                                        <label for="name">Full Name</label>
-                                        <input type="text" class="form-control" name="name" t-att-value="trainer.name if trainer else ''" required="required"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email" t-att-value="trainer.email if trainer else ''" required="required"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" name="phone" t-att-value="trainer.phone if trainer else ''"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="location">Location</label>
-                                        <input type="text" class="form-control" name="location" t-att-value="trainer.location if trainer else ''"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="availability">Availability</label>
-                                        <select name="availability" class="form-control">
-                                            <option value="available" t-att-selected="trainer and trainer.availability == 'available'">Available</option>
-                                            <option value="unavailable" t-att-selected="trainer and trainer.availability == 'unavailable'">Unavailable</option>
-                                            <option value="partial" t-att-selected="trainer and trainer.availability == 'partial'">Partially Available</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="domains">Expertise Domains</label>
-                                        <!-- This needs a proper widget, e.g., many2many_tags_website -->
-                                        <!-- For simplicity, a text input or a multi-select if domains are pre-loaded -->
-                                        <select name="domain_ids" class="form-control" multiple="multiple" id="domain_ids">
-                                            <t t-foreach="request.env['academy.trainer.domain'].search([])" t-as="domain">
-                                                <option t-att-value="domain.id" t-att-selected="trainer and domain.id in trainer.domains.ids"><t t-esc="domain.name"/></option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="bio">Biography</label>
-                                        <textarea class="form-control" name="bio" rows="5"><t t-esc="trainer.bio if trainer else ''"/></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary mt-3">Save Profile</button>
-                                </form>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-10 col-xl-8"> <!-- Wider form area -->
+                                <div class="profile-form-container"> <!-- Apply new class -->
+                                    <h1 t-if="page_name == 'create_trainer_profile'">Create Your Trainer Profile</h1>
+                                    <h1 t-if="page_name == 'edit_trainer_profile'">Edit Your Trainer Profile</h1>
 
-                                <t t-if="page_name == 'edit_trainer_profile' and trainer">
-                                    <hr class="my-4"/>
-                                    <h2>Manage CVs</h2>
-                                    <!-- CV List -->
-                                    <ul t-if="trainer.cv_ids">
-                                        <li t-foreach="trainer.cv_ids" t-as="cv">
-                                            <t t-esc="cv.name"/> - <a t-attf-href="/web/content/academy.trainer.cv/{{cv.id}}/cv_file?download=true">Download</a>
-                                            <!-- Add delete CV option here -->
-                                        </li>
-                                    </ul>
-                                    <t t-else="">
-                                        <p>No CVs uploaded yet.</p>
-                                    </t>
-                                    <!-- CV Upload Form -->
-                                    <form method="POST" action="/trainers/profile/cv/upload" enctype="multipart/form-data" class="mt-3">
+                                    <form method="POST" t-attf-action="{{ '/trainers/profile/create' if page_name == 'create_trainer_profile' else '/trainers/profile/edit' }}" enctype="multipart/form-data">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <div class="form-group">
-                                            <label for="cv_file">Upload New CV</label>
-                                            <input type="file" class="form-control-file" name="cv_file" required="required"/>
+
+                                        <div class="form-row"> <!-- Use form-row for better spacing of columns -->
+                                            <div class="col-md-6 form-group">
+                                                <label for="name">Full Name</label>
+                                                <input type="text" class="form-control" name="name" id="name" t-att-value="trainer.name if trainer else ''" required="required"/>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" name="email" id="email" t-att-value="trainer.email if trainer else ''" required="required"/>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="cv_title">CV Title/Name</label>
-                                            <input type="text" class="form-control" name="name" required="required" placeholder="e.g., My Latest CV"/>
+
+                                        <div class="form-row">
+                                            <div class="col-md-6 form-group">
+                                                <label for="phone">Phone</label>
+                                                <input type="text" class="form-control" name="phone" id="phone" t-att-value="trainer.phone if trainer else ''"/>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label for="location">Location</label>
+                                                <input type="text" class="form-control" name="location" id="location" t-att-value="trainer.location if trainer else ''" placeholder="City, Country"/>
+                                            </div>
                                         </div>
-                                        <button type="submit" class="btn btn-secondary mt-2">Upload CV</button>
+
+                                        <div class="form-group">
+                                            <label for="availability">Availability</label>
+                                            <select name="availability" id="availability" class="form-control custom-select"> <!-- Added custom-select for Bootstrap styling -->
+                                                <option value="available" t-att-selected="trainer and trainer.availability == 'available'">Available</option>
+                                                <option value="unavailable" t-att-selected="trainer and trainer.availability == 'unavailable'">Unavailable</option>
+                                                <option value="partial" t-att-selected="trainer and trainer.availability == 'partial'">Partially Available</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="domain_ids">Expertise Domains</label>
+                                            <!-- This ideally uses a many2many_tags_website widget or similar. -->
+                                            <!-- For standard select, ensure it's styled. -->
+                                            <select name="domain_ids" id="domain_ids" class="form-control custom-select" multiple="multiple">
+                                                <t t-foreach="request.env['academy.trainer.domain'].search([])" t-as="domain">
+                                                    <option t-att-value="domain.id" t-att-selected="trainer and domain.id in trainer.domains.ids"><t t-esc="domain.name"/></option>
+                                                </t>
+                                            </select>
+                                            <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple domains.</small>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bio">Biography / Summary</label>
+                                            <textarea class="form-control" name="bio" id="bio" rows="6"><t t-esc="trainer.bio if trainer else ''"/></textarea>
+                                        </div>
+
+                                        <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" name="website_published" id="website_published" value="True" t-att-checked="trainer.website_published if trainer else (trainer is None or trainer.website_published)"/> <!-- Checked by default for new, or existing value -->
+                                            <label class="form-check-label" for="website_published">Visible on Website</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Save Profile</button>
                                     </form>
-                                </t>
+
+                                    <t t-if="page_name == 'edit_trainer_profile' and trainer">
+                                        <div class="cv-management-section"> <!-- Apply new class -->
+                                            <h2>Manage CVs</h2>
+                                            <ul t-if="trainer.cv_ids">
+                                                <li t-foreach="trainer.cv_ids" t-as="cv">
+                                                    <span class="cv-name"><i class="fa fa-file-text-o mr-2"/> <t t-esc="cv.name"/></span>
+                                                    <span class="cv-actions">
+                                                        <a t-attf-href="/web/content/academy.trainer.cv/{{cv.id}}/cv_file?download=true" class="mr-2" title="Download"><i class="fa fa-download"/> Download</a>
+                                                        <!-- Example Delete Button (requires controller logic) -->
+                                                        <!-- <button type="button" t-attf-data-cv-id="{{cv.id}}" class="btn btn-link btn-delete-cv p-0" title="Delete"><i class="fa fa-trash"/> Delete</button> -->
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <t t-else="">
+                                                <p>No CVs uploaded yet.</p>
+                                            </t>
+
+                                            <form method="POST" action="/trainers/profile/cv/upload" enctype="multipart/form-data" class="mt-3 cv-upload-form"> <!-- Apply new class -->
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <h5>Upload New CV</h5>
+                                                <div class="form-group">
+                                                    <label for="cv_title">CV Title/Name</label>
+                                                    <input type="text" class="form-control" name="name" id="cv_title" required="required" placeholder="e.g., My Latest CV"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cv_file">CV File</label>
+                                                    <div class="custom-file"> <!-- Use Bootstrap custom file input -->
+                                                        <input type="file" class="custom-file-input" name="cv_file" id="cv_file" required="required"/>
+                                                        <label class="custom-file-label" for="cv_file">Choose file...</label>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-secondary">Upload CV</button>
+                                            </form>
+                                        </div>
+                                    </t>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-        </t>
-    </template>
-</odoo>
+                    </section>
+                </div>
+                <!-- Script for custom file input label -->
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            var fileName = $(this).val().split("\\").pop();
+                            if (fileName) {
+                                $(this).next('.custom-file-label').html(fileName);
+                            } else {
+                                $(this).next('.custom-file-label').html('Choose file...');
+                            }
+                        });
+                    });
+                </script>
+            </t>
+        </template>
+    </odoo>

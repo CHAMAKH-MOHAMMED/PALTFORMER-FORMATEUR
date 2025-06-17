@@ -2,52 +2,57 @@
 <odoo>
     <template id="trainer_profile_template" name="Trainer Profile">
         <t t-call="website.layout">
-            <div id="wrap" class="oe_structure oe_empty">
-                <section class="py-5">
+            <div id="wrap" class="oe_structure">
+                <section class="academy-trainer-profile-section"> <!-- Apply new class -->
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-8 offset-md-2">
-                                <h1 class="text-center"><t t-esc="trainer.name"/></h1>
-                                <p class="text-center text-muted"><t t-esc="trainer.email"/></p>
-                                <hr/>
-                                <div>
-                                    <strong>Phone:</strong> <t t-esc="trainer.phone or 'N/A'"/><br/>
-                                    <strong>Location:</strong> <t t-esc="trainer.location or 'N/A'"/><br/>
-                                    <strong>Availability:</strong> <t t-esc="dict(trainer._fields['availability'].selection).get(trainer.availability) or 'N/A'"/><br/>
+                            <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2"> <!-- Wider on large screens -->
+
+                                <div class="trainer-profile-header">
+                                    <h1><t t-esc="trainer.name"/></h1>
+                                    <p class="text-muted"><t t-esc="trainer.email"/></p>
+                                    <!-- Actions for logged-in owner -->
+                                    <div class="profile-actions mt-3" t-if="trainer.user_id and trainer.user_id == request.env.user">
+                                        <a href="/trainers/profile/edit" class="btn btn-secondary">Edit Profile</a>
+                                        <!-- CV Upload form is part of edit page, or could be a modal trigger here -->
+                                    </div>
+                                </div>
+
+                                <div class="trainer-profile-details">
+                                    <h4>Personal Information</h4>
+                                    <p><strong>Phone:</strong> <t t-esc="trainer.phone or 'N/A'"/></p>
+                                    <p><strong>Location:</strong> <t t-esc="trainer.location or 'N/A'"/></p>
+                                    <p><strong>Availability:</strong> <t t-esc="dict(trainer._fields['availability'].selection).get(trainer.availability) or 'N/A'"/></p>
                                     <t t-if="trainer.domains">
-                                        <strong>Expertise Domains:</strong>
+                                        <p class="mb-1"><strong>Expertise Domains:</strong></p>
                                         <ul>
                                             <li t-foreach="trainer.domains" t-as="domain"><t t-esc="domain.name"/></li>
                                         </ul>
                                     </t>
                                 </div>
-                                <div class="mt-4">
+
+                                <div t-if="trainer.bio and trainer.bio != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'" class="trainer-profile-bio"> <!-- Check if bio is not empty -->
                                     <h4>Biography</h4>
                                     <div t-field="trainer.bio" class="oe_no_empty"/>
                                 </div>
 
-                                <div class="mt-4">
-                                    <h4>CVs</h4>
+                                <div class="trainer-profile-cvs">
+                                    <h4>Curriculum Vitae (CVs)</h4>
                                     <t t-if="trainer.cv_ids">
                                         <ul>
                                             <li t-foreach="trainer.cv_ids" t-as="cv">
                                                 <a t-attf-href="/web/content/academy.trainer.cv/{{cv.id}}/cv_file?download=true" t-att-title="cv.description">
-                                                    <t t-esc="cv.name"/>
+                                                    <i class="fa fa-download mr-2"/> <t t-esc="cv.name"/>
                                                 </a>
-                                                (<t t-esc="cv.upload_date" t-options='{"widget": "date"}'/>)
+                                                <span class="cv-date">Uploaded: <t t-esc="cv.upload_date" t-options='{"widget": "date"}'/></span>
                                             </li>
                                         </ul>
                                     </t>
                                     <t t-else="">
-                                        <p>No CVs uploaded.</p>
+                                        <p>No CVs uploaded for this trainer.</p>
                                     </t>
                                 </div>
 
-                                <!-- Placeholder for Edit Profile and CV Upload for logged in trainer -->
-                                <div class="mt-4" t-if="trainer.user_id and trainer.user_id == request.env.user">
-                                    <a href="/trainers/profile/edit" class="btn btn-secondary">Edit Profile</a>
-                                    <!-- CV Upload form can be part of the edit page or a separate section -->
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="academy_landing_page_template" name="Welcome to our Academy Platform">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure"> <!-- Removed oe_empty as content is now structured -->
+                <!-- Hero Section -->
+                <section class="academy-hero-section"> <!-- Apply new class, remove inline styles -->
+                    <div class="container">
+                        <h1 class="display-4">Connect Trainers &amp; Training Centers</h1>
+                        <p class="lead">Find expert trainers or showcase your training skills to a wide audience.</p>
+                        <p>
+                            <a t-attf-href="/trainers" class="btn btn-primary btn-lg my-2">Browse Trainers</a>
+                            <a t-attf-href="/web/login?redirect=/trainers/profile/edit" class="btn btn-secondary btn-lg my-2">Become a Trainer</a>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Feature Section -->
+                <section class="academy-feature-section"> <!-- Apply new class -->
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-lg-4 mb-4 d-flex align-items-stretch"> <!-- Added d-flex for equal height cards -->
+                                <div class="card"> <!-- Removed h-100, d-flex handles this -->
+                                    <div class="card-body"> <!-- d-flex flex-column moved to CSS -->
+                                        <h4 class="card-title">For Trainers</h4>
+                                        <p class="card-text">Create your professional profile, upload your CV, and get noticed by training centers looking for your expertise.</p>
+                                        <a t-attf-href="/web/login?redirect=/trainers/profile/edit" class="btn btn-outline-primary">Get Started</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4 d-flex align-items-stretch">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">For Training Centers</h4>
+                                        <p class="card-text">Search our extensive database of qualified trainers. Filter by domain, availability, location, and more.</p>
+                                        <a t-attf-href="/trainers/search" class="btn btn-outline-primary">Find Trainers</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4 d-flex align-items-stretch">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Quality &amp; Connection</h4>
+                                        <p class="card-text">We aim to bridge the gap between skilled trainers and organizations needing their services.</p>
+                                        <!-- Optional: Link to about us or contact -->
+                                        <a href="#" class="btn btn-outline-secondary invisible">Learn More</a> <!-- Placeholder for structure, invisible -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

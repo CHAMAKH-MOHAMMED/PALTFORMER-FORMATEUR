@@ -3,6 +3,10 @@ from odoo.http import request
 
 class AcademyTrainersWebsite(http.Controller):
 
+    @http.route('/academy', type='http', auth='public', website=True, sitemap=True)
+    def academy_landing_page(self, **kwargs):
+        return request.render('academy_trainers_management.academy_landing_page_template')
+
     @http.route('/trainers', type='http', auth='public', website=True)
     def list_trainers(self, **kwargs):
         # Logic to fetch and display a list of trainers
@@ -96,26 +100,42 @@ class AcademyTrainersWebsite(http.Controller):
         # For now, let's assume centers search trainers
         return request.redirect('/trainers/search') # Redirect to trainer search for now
 
-    @http.route('/trainers/search', type='http', auth='user', website=True) # Should this be restricted to centers?
+    @http.route('/trainers/search', type='http', auth='user', website=True, methods=['GET']) # Explicitly GET, form submission is GET
     def search_trainers(self, **kwargs):
-        # Logic for training centers to search and filter trainers
-        # This will be a more complex page with search filters
-        # domains = request.env['academy.trainer.domain'].search([])
-        # Fetch trainers based on search criteria (kwargs)
-        # search_domain = [('website_published', '=', True)]
-        # if kwargs.get('domain_id'):
-        #     search_domain.append(('domains', 'in', [int(kwargs.get('domain_id'))]))
-        # if kwargs.get('availability'):
-        #     search_domain.append(('availability', '=', kwargs.get('availability')))
-        # if kwargs.get('location'):
-        #     search_domain.append(('location', 'ilike', kwargs.get('location')))
-        #
-        # trainers = request.env['academy.trainer.profile'].search(search_domain)
+        trainers = None # Initialize trainers
+        search_domain = [('website_published', '=', True)]
+
+        relevant_search_keys = ['name', 'domain_id', 'availability', 'location']
+        # Check if any actual search values are provided for the relevant keys
+        has_search_criteria = any(kwargs.get(k) for k in relevant_search_keys)
+
+        if has_search_criteria:
+            if kwargs.get('name'):
+                search_domain.append(('name', 'ilike', kwargs.get('name')))
+            if kwargs.get('domain_id'):
+                try:
+                    domain_id = int(kwargs.get('domain_id'))
+                    if domain_id: # Ensure it's not 0 from an empty select
+                         search_domain.append(('domains', 'in', [domain_id]))
+                except ValueError:
+                    pass # Ignore if domain_id is not a valid integer (e.g. empty string from select)
+            if kwargs.get('availability'):
+                search_domain.append(('availability', '=', kwargs.get('availability')))
+            if kwargs.get('location'):
+                search_domain.append(('location', 'ilike', kwargs.get('location')))
+
+            trainers = request.env['academy.trainer.profile'].search(search_domain)
+        # If no search criteria effectively provided, trainers remains None (or [] if preferred by template logic)
+        # This means if the page is just loaded, no results are shown, which is fine.
+
+        all_domains = request.env['academy.trainer.domain'].search([])
+
         return request.render('academy_trainers_management.trainers_search_template', {
-            # 'trainers': trainers,
-            # 'search_criteria': kwargs,
-            # 'all_domains': domains
+            'trainers': trainers,
+            'search_criteria': kwargs, # Pass kwargs directly, template uses .get() for safety
+            'all_domains': all_domains,
             'page_name': 'search_trainers',
+            'has_search_criteria': has_search_criteria # For template to show "No results" vs "Enter search criteria"
         })
 
     # Similar create/edit controllers for TrainingCenterProfile can be added here

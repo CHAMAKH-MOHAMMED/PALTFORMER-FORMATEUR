@@ -14,11 +14,17 @@
         'security/ir.model.access.csv',
         'security/security_rules.xml',
         'views/website_menus.xml',
+        'views/templates_landing_page.xml', # Added landing page
         'views/templates_trainers_list.xml',
         'views/templates_trainer_profile.xml',
         'views/templates_trainer_form.xml',
         'views/templates_trainer_search.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'academy_trainers_management/static/src/css/custom_styles.css',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

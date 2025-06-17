@@ -1,0 +1,631 @@
+/* Academy Trainers Management - Custom Styles */
+
+/* Variables (Consider Odoo's SCSS variables if available/compatible for deeper integration) */
+:root {
+    --academy-primary-color: #007A73; /* A teal/Odoo green variant */
+    --academy-primary-color-rgb: 0,122,115; /* RGB version for box-shadow */
+    --academy-secondary-color: #3D405B; /* A darker slate blue for text/accents */
+    --academy-accent-color: #F2CC8F; /* A warm accent */
+    --academy-background-light: #F8F9FA; /* Light grey for backgrounds */
+    --academy-text-color: #333;
+    --academy-text-light: #FFFFFF;
+    --academy-font-sans-serif: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Example, Odoo's default is often fine */
+}
+
+body {
+    font-family: var(--academy-font-sans-serif);
+    color: var(--academy-text-color);
+}
+
+/* Landing Page Hero Section */
+.academy-hero-section { /* New class to be added to the section in template */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/academy_trainers_management/static/src/img/landing_banner.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--academy-text-light);
+    padding: 120px 0; /* Increased padding */
+    text-align: center;
+}
+
+.academy-hero-section h1 {
+    font-size: 3.5rem; /* Larger font size */
+    font-weight: 700; /* Bolder */
+    margin-bottom: 0.75rem;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.academy-hero-section .lead {
+    font-size: 1.5rem; /* Larger lead text */
+    font-weight: 300;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+.academy-hero-section .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border-radius: 50px; /* Rounded buttons */
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.academy-hero-section .btn-primary {
+    background-color: var(--academy-primary-color);
+    border-color: var(--academy-primary-color);
+}
+.academy-hero-section .btn-primary:hover {
+    background-color: #005f58; /* Pre-calculated darker shade of --academy-primary-color */
+    border-color: #005851; /* Slightly different for border if needed, or same */
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.academy-hero-section .btn-secondary {
+    background-color: var(--academy-accent-color);
+    border-color: var(--academy-accent-color);
+    color: var(--academy-secondary-color);
+}
+.academy-hero-section .btn-secondary:hover {
+    background-color: #e0b673; /* Pre-calculated darker shade of --academy-accent-color */
+    border-color: #daa75f;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+
+/* Feature Section on Landing Page */
+.academy-feature-section { /* New class to be added */
+    padding: 80px 0;
+    background-color: var(--academy-background-light);
+}
+
+.academy-feature-section .card {
+    border: none;
+    border-radius: 10px; /* More rounded cards */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--academy-text-light);
+    height: 100%; /* Ensure cards in a row are same height if content varies */
+}
+
+.academy-feature-section .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.academy-feature-section .card-body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.academy-feature-section .card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--academy-secondary-color);
+    margin-bottom: 1rem;
+}
+
+.academy-feature-section .card-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--academy-text-color); /* Darker text for readability */
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Allow text to take available space */
+}
+
+.academy-feature-section .btn-outline-primary {
+    color: var(--academy-primary-color);
+    border-color: var(--academy-primary-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    margin-top: auto; /* Pushes button to the bottom of the card body */
+}
+
+.academy-feature-section .btn-outline-primary:hover {
+    background-color: var(--academy-primary-color);
+    color: var(--academy-text-light);
+}
+
+/* General site-wide improvements (can be expanded) */
+/* Section-specific heading styles are generally preferred over this global one */
+/*
+.oe_structure .academy-trainers-list-section h1,
+.oe_structure .academy-trainer-profile-section h1,
+.oe_structure .academy-trainer-search-section h1,
+.oe_structure .academy-profile-form-section h1,
+.oe_structure .academy-trainers-list-section h2,
+.oe_structure .academy-trainer-profile-section h2,
+.oe_structure .academy-trainer-search-section h2,
+.oe_structure .academy-profile-form-section h2 {
+    color: var(--academy-secondary-color);
+}
+*/
+
+/* Default link styling within academy sections */
+.academy-trainers-list-section a:not(.btn):not(.alert-link):not([class*="btn-"]),
+.academy-trainer-profile-section a:not(.btn):not(.alert-link):not([class*="btn-"]),
+.academy-trainer-search-section a:not(.btn):not(.alert-link):not([class*="btn-"]),
+.academy-profile-form-section a:not(.btn):not(.alert-link):not([class*="btn-"]) {
+    color: var(--academy-primary-color);
+    text-decoration: none;
+}
+.academy-trainers-list-section a:not(.btn):not(.alert-link):not([class*="btn-"]):hover,
+.academy-trainer-profile-section a:not(.btn):not(.alert-link):not([class*="btn-"]):hover,
+.academy-trainer-search-section a:not(.btn):not(.alert-link):not([class*="btn-"]):hover,
+.academy-profile-form-section a:not(.btn):not(.alert-link):not([class*="btn-"]):hover {
+    color: var(--academy-secondary-color);
+    text-decoration: underline;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .academy-hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .academy-hero-section .lead {
+        font-size: 1.2rem;
+    }
+    .academy-feature-section .card {
+        margin-bottom: 1.5rem; /* Ensure spacing on mobile */
+    }
+}
+
+/* Trainer Listing Page Styles */
+.academy-trainers-list-section { /* New class for the section on trainers list page */
+    padding: 60px 0;
+    background-color: var(--academy-background-light); /* Consistent background */
+}
+
+.academy-trainers-list-section h1 { /* This is already styled per section, see above */
+    font-size: 2.8rem;
+    font-weight: 600;
+    /* color: var(--academy-secondary-color); */ /* Handled by section specific or general */
+    margin-bottom: 2.5rem; /* More space below title */
+}
+
+.trainer-card { /* New class for individual trainer cards */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Ensure cards in a row are same height */
+    display: flex;
+    flex-direction: column;
+}
+
+.trainer-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+.trainer-card .card-body {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows card body to grow */
+}
+
+.trainer-card .card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--academy-primary-color); /* Use primary color for title */
+    margin-bottom: 0.75rem;
+}
+
+.trainer-card .card-text {
+    font-size: 0.95rem;
+    color: #555; /* Slightly lighter text */
+    line-height: 1.5;
+    margin-bottom: 0.5rem; /* Space between text items */
+}
+
+.trainer-card .card-text strong {
+    color: var(--academy-secondary-color); /* Darker color for strong tags */
+}
+
+.trainer-card .btn-primary {
+    background-color: var(--academy-primary-color);
+    border-color: var(--academy-primary-color);
+    border-radius: 50px; /* Rounded buttons */
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-top: auto; /* Push button to bottom */
+    align-self: flex-start; /* Align button to the start of the flex container */
+}
+
+.trainer-card .btn-primary:hover {
+    background-color: #005f58; /* Darker shade */
+    border-color: #005f58;
+    transform: scale(1.05); /* Slight scale effect */
+}
+
+/* Styling for the login/register prompt on trainers list */
+.trainers-list-prompt { /* New class for the alert box */
+    background-color: #e7f3fe; /* Light blue background */
+    border-left: 5px solid var(--academy-primary-color);
+    padding: 1.5rem;
+    border-radius: 5px;
+    text-align: center; /* Ensure text is centered as before */
+}
+.trainers-list-prompt strong {
+    color: var(--academy-primary-color);
+}
+.trainers-list-prompt a.alert-link { /* Be more specific if needed */
+    color: var(--academy-secondary-color);
+    font-weight: 500;
+    text-decoration: underline;
+}
+.trainers-list-prompt a.alert-link:hover {
+    color: var(--academy-primary-color);
+}
+
+/* Trainer Profile Page Styles */
+.academy-trainer-profile-section { /* New class for the main section */
+    padding: 40px 0 60px 0; /* Adjusted padding */
+    background-color: var(--academy-background-light); /* Consistent background */
+}
+
+.trainer-profile-header { /* For the top part with name and email */
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 2rem;
+    background-color: var(--academy-text-light); /* White background for header */
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+}
+
+.trainer-profile-header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--academy-primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.trainer-profile-header .text-muted { /* Styling for email or subtitle */
+    font-size: 1.1rem;
+    color: #6c757d !important; /* Bootstrap muted color, ensure override if needed */
+}
+
+.trainer-profile-header .profile-actions a.btn { /* More specific selector */
+    margin-top: 1rem; /* Spacing for the button if it's inside this header */
+}
+
+.trainer-profile-details, .trainer-profile-bio, .trainer-profile-cvs {
+    background-color: var(--academy-text-light); /* White background for content blocks */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.trainer-profile-details h4, .trainer-profile-bio h4, .trainer-profile-cvs h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--academy-secondary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--academy-primary-color); /* Accent border */
+    display: inline-block; /* To make border only as wide as text */
+}
+
+.trainer-profile-details strong {
+    color: var(--academy-secondary-color);
+    margin-right: 8px; /* Space after strong tag */
+    font-weight: 500;
+}
+
+.trainer-profile-details p { /* For each detail line: Phone, Location, etc. */
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.trainer-profile-details ul {
+    list-style: none;
+    padding-left: 0;
+}
+.trainer-profile-details ul li {
+    padding: 5px 0;
+    font-size: 1.05rem;
+}
+.trainer-profile-details ul li::before { /* Custom bullet for domain list */
+    content: "\2713\0020"; /* Checkmark unicode */
+    color: var(--academy-primary-color);
+    margin-right: 8px;
+}
+
+.trainer-profile-bio .oe_no_empty { /* Target the bio content */
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+}
+.trainer-profile-bio .oe_no_empty p:last-child {
+    margin-bottom: 0;
+}
+
+.trainer-profile-cvs ul {
+    list-style: none;
+    padding-left: 0;
+}
+.trainer-profile-cvs ul li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+}
+.trainer-profile-cvs ul li:last-child {
+    border-bottom: none;
+}
+.trainer-profile-cvs ul li a { /* This will be affected by the general link styling if not specific enough */
+    font-weight: 500;
+    /* color: var(--academy-primary-color); */ /* General link style will handle this */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+/* .trainer-profile-cvs ul li a:hover {
+    color: var(--academy-secondary-color);
+    text-decoration: underline;
+} */
+.trainer-profile-cvs ul li .cv-date {
+    font-size: 0.9rem;
+    color: #777;
+}
+.trainer-profile-cvs p { /* "No CVs uploaded" message */
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Action buttons on profile page (Edit, Upload CV) */
+.profile-actions .btn { /* This class is on the div wrapping actions in the template */
+    margin-right: 10px; /* Applies if multiple buttons in this div */
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.profile-actions .btn-secondary { /* Edit Profile button */
+    background-color: var(--academy-secondary-color);
+    border-color: var(--academy-secondary-color);
+    color: var(--academy-text-light);
+}
+.profile-actions .btn-secondary:hover {
+    background-color: #2c2e40; /* Pre-calculated darker shade */
+    border-color: #2c2e40;
+}
+
+/* Trainer Search Page Styles */
+.academy-trainer-search-section {
+    padding: 40px 0 60px 0;
+    background-color: var(--academy-background-light);
+}
+
+.academy-trainer-search-section h1 { /* Already styled per section */
+    font-size: 2.8rem;
+    font-weight: 600;
+    /* color: var(--academy-secondary-color); */
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.search-filters-form {
+    background-color: var(--academy-text-light);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    margin-bottom: 3rem;
+}
+
+.search-filters-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.search-filters-form .form-group label {
+    font-weight: 500;
+    color: var(--academy-secondary-color);
+    margin-bottom: 0.3rem; /* Smaller margin for labels */
+    font-size: 0.95rem;
+}
+
+.search-filters-form .form-control { /* Styling for text inputs and selects */
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Standard Bootstrap border */
+    padding: 0.5rem 0.75rem; /* Adjusted padding */
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.search-filters-form .form-control:focus {
+    border-color: var(--academy-primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--academy-primary-color-rgb), 0.25); /* Use RGB for box-shadow color */
+}
+
+.search-filters-form .btn-primary {
+    background-color: var(--academy-primary-color);
+    border-color: var(--academy-primary-color);
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem; /* Wider padding */
+    font-size: 1rem;
+    text-transform: uppercase;
+    width: 100%; /* Make button full width of its column or use specific col size */
+}
+.search-filters-form .btn-primary:hover {
+    background-color: #005f58; /* Darker shade */
+    border-color: #005f58;
+}
+
+.search-results-area .trainer-card { /* Re-use trainer-card style from listing */
+    margin-bottom: 1.5rem; /* Ensure spacing, though col already has mb-4 */
+}
+
+.search-results-area .no-results-message {
+    background-color: var(--academy-text-light);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--academy-secondary-color);
+}
+
+/* Profile Form Styles (Create/Edit Trainer) */
+.academy-profile-form-section {
+    padding: 40px 0 60px 0;
+    background-color: var(--academy-background-light);
+}
+
+.academy-profile-form-section h1 { /* Already styled per section */
+    font-size: 2.5rem; /* Slightly smaller than main page titles */
+    font-weight: 600;
+    /* color: var(--academy-secondary-color); */
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.profile-form-container { /* Wrapper for the form */
+    background-color: var(--academy-text-light);
+    padding: 2.5rem; /* More padding for larger forms */
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+}
+
+.profile-form-container .form-group label {
+    font-weight: 500;
+    color: var(--academy-secondary-color);
+    font-size: 1rem; /* Slightly larger labels for profile form */
+}
+
+/* Ensure .form-control styles from search page apply here too. If not, duplicate/generalize: */
+.profile-form-container .form-control,
+.profile-form-container .custom-file-input { /* For CV upload */
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.6rem 0.9rem; /* Slightly more padding for comfort */
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0.5rem; /* Space below input before next label */
+}
+.profile-form-container .form-control:focus,
+.profile-form-container .custom-file-input:focus {
+    border-color: var(--academy-primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--academy-primary-color-rgb), 0.25);
+}
+.profile-form-container textarea.form-control {
+    min-height: 120px; /* Taller text area for bio */
+}
+
+/* Styling for select2 (many2many_tags_website for domains) if used */
+.profile-form-container .select2-container--default .select2-selection--multiple {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.3rem 0.5rem;
+}
+.profile-form-container .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: var(--academy-primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(var(--academy-primary-color-rgb), 0.25);
+}
+
+
+.profile-form-container .btn-primary { /* Save Profile button */
+    background-color: var(--academy-primary-color);
+    border-color: var(--academy-primary-color);
+    border-radius: 50px;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-top: 1rem; /* Space above button */
+}
+.profile-form-container .btn-primary:hover {
+    background-color: #005f58;
+    border-color: #005f58;
+}
+
+/* CV Management Section in Profile Form */
+.cv-management-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+.cv-management-section h2 {
+    font-size: 1.8rem;
+    color: var(--academy-secondary-color);
+    margin-bottom: 1.5rem;
+}
+.cv-management-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+.cv-management-section ul li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cv-management-section ul li:last-child {
+    border-bottom: none;
+}
+.cv-management-section ul li .cv-name {
+    font-weight: 500;
+}
+.cv-management-section ul li .cv-actions a { /* Will be affected by general link style */
+    margin-left: 10px;
+    /* color: var(--academy-primary-color); */ /* General link style will handle this */
+    text-decoration: none;
+}
+/* .cv-management-section ul li .cv-actions a:hover {
+    text-decoration: underline;
+    color: var(--academy-secondary-color);
+} */
+/* Delete CV button could be styled as a small danger button */
+.cv-management-section ul li .cv-actions .btn-delete-cv {
+    color: #dc3545; /* Bootstrap danger color */
+    font-size: 0.9em;
+    background: none; /* Ensure it's link-like */
+    border: none;
+    padding: 0;
+}
+ .cv-management-section ul li .cv-actions .btn-delete-cv:hover {
+    color: #a71d2a; /* Darker danger color */
+    text-decoration: underline; /* Add underline for link-like button */
+}
+
+
+.cv-upload-form .form-group label { /* Already specific enough */
+    font-weight: normal; /* Lighter labels for CV upload subform */
+    font-size: 0.95rem;
+}
+.cv-upload-form h5 { /* Styling for "Upload New CV" title */
+    font-size: 1.25rem;
+    color: var(--academy-secondary-color);
+    margin-top: 1rem; /* Space above this title */
+    margin-bottom: 1rem;
+}
+.cv-upload-form .btn-secondary { /* Upload CV button */
+    background-color: var(--academy-secondary-color);
+    border-color: var(--academy-secondary-color);
+    color: var(--academy-text-light);
+    border-radius: 50px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+.cv-upload-form .btn-secondary:hover {
+    background-color: #2c2e40; /* Pre-calculated darker shade */
+    border-color: #2c2e40;
+}
+.profile-form-container .custom-file-label { /* Ensure this is specific enough */
+    border: 1px solid #ced4da; /* Match other inputs */
+}
+.profile-form-container .custom-file-label::after { /* Style the custom file input browse button */
+    background-color: var(--academy-secondary-color);
+    color: var(--academy-text-light);
+    border-radius: 0 3px 3px 0; /* Match input rounding, adjust if using 5px */
+    border-left: 1px solid var(--academy-secondary-color); /* Add border for definition */
+}

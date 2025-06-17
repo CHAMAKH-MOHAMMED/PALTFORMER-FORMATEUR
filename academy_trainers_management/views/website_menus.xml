@@ -3,8 +3,8 @@
     <data>
         <!-- Main "Trainers" Menu on website header -->
         <record id="website_menu_trainers_root" model="website.menu">
-            <field name="name">Trainers</field>
-            <field name="url">/trainers</field>
+            <field name="name">Academy Home</field> <!-- Changed name -->
+            <field name="url">/academy</field> <!-- Changed URL -->
             <field name="parent_id" ref="website.main_menu"/> <!-- Attaches to the main website menu -->
             <field name="sequence" type="int">30</field> <!-- Adjust sequence as needed -->
         </record>
