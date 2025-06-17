@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="trainers_search_template" name="Search Trainers">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="py-5">
+                    <div class="container">
+                        <h1 class="text-center mb-4">Search Trainers</h1>
+                        <!-- Search Form -->
+                        <form method="GET" action="/trainers/search" class="mb-4">
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label for="search_name">Name</label>
+                                    <input type="text" name="name" class="form-control" t-att-value="search_criteria.get('name', '')" placeholder="Trainer Name"/>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="search_domain">Domain</label>
+                                    <select name="domain_id" class="form-control">
+                                        <option value="">Any Domain</option>
+                                        <t t-foreach="all_domains or request.env['academy.trainer.domain'].search([])" t-as="domain">
+                                            <option t-att-value="domain.id" t-att-selected="domain.id == search_criteria.get('domain_id', '').isdigit() and domain.id == int(search_criteria.get('domain_id', '0'))"><t t-esc="domain.name"/></option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="search_availability">Availability</label>
+                                    <select name="availability" class="form-control">
+                                        <option value="">Any</option>
+                                        <option value="available" t-att-selected="search_criteria.get('availability') == 'available'">Available</option>
+                                        <option value="unavailable" t-att-selected="search_criteria.get('availability') == 'unavailable'">Unavailable</option>
+                                        <option value="partial" t-att-selected="search_criteria.get('availability') == 'partial'">Partially Available</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="search_location">Location</label>
+                                    <input type="text" name="location" class="form-control" t-att-value="search_criteria.get('location', '')" placeholder="City or Country"/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Search</button>
+                        </form>
+
+                        <!-- Search Results -->
+                        <div class="row">
+                            <t t-if="trainers">
+                                <t t-foreach="trainers" t-as="trainer">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title"><t t-esc="trainer.name"/></h5>
+                                                <p class="card-text">
+                                                    Domains: <t t-esc="', '.join([d.name for d in trainer.domains])"/><br/>
+                                                    Location: <t t-esc="trainer.location"/>
+                                                </p>
+                                                <a t-attf-href="/trainers/{{ trainer.id }}" class="btn btn-sm btn-info">View Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-elif="search_criteria"> <!-- Check if a search was performed -->
+                                <div class="col-12">
+                                    <p class="text-center">No trainers found matching your criteria.</p>
+                                </div>
+                            </t>
+                            <!-- Add initial state message if needed, e.g., "Enter criteria to search for trainers." -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

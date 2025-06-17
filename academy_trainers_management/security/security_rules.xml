@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0"> <!-- noupdate="1" for rules that should not be overridden on module update -->
+
+        <!-- Record Rules for TrainerProfile -->
+        <record id="trainer_profile_portal_user_rule" model="ir.rule">
+            <field name="name">Portal Trainer: Own Profile Only</field>
+            <field name="model_id" ref="model_academy_trainer_profile"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/> <!-- Can create if they don't have one -->
+            <field name="perm_unlink" eval="True"/>
+            <!-- Trainers can only manage their own profile, linked by user_id -->
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="trainer_profile_public_rule" model="ir.rule">
+            <field name="name">Public Trainer Profiles: Published Only</field>
+            <field name="model_id" ref="model_academy_trainer_profile"/>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('website_published', '=', True)]</field>
+        </record>
+
+        <!-- Record Rules for TrainerCV -->
+        <record id="trainer_cv_portal_user_rule" model="ir.rule">
+            <field name="name">Portal Trainer: Own CVs Only</field>
+            <field name="model_id" ref="model_academy_trainer_cv"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[('trainer_id.user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="trainer_cv_public_rule" model="ir.rule">
+            <field name="name">Public Trainer CVs: Published Trainer Only</field>
+            <field name="model_id" ref="model_academy_trainer_cv"/>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/> <!-- Assuming CVs of public trainers are public -->
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('trainer_id.website_published', '=', True)]</field>
+        </record>
+
+        <!-- Record Rules for TrainingCenterProfile -->
+        <record id="training_center_portal_user_rule" model="ir.rule">
+            <field name="name">Portal Center: Own Profile Only</field>
+            <field name="model_id" ref="model_academy_training_center_profile"/>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="training_center_public_rule" model="ir.rule">
+            <field name="name">Public Training Center Profiles: Published Only</field>
+            <field name="model_id" ref="model_academy_training_center_profile"/>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[('website_published', '=', True)]</field>
+        </record>
+
+        <!-- Internal users (e.g. admin) usually have broader access via ir.model.access.csv -->
+        <!-- We can add a group for 'Academy Admin' for full access if needed -->
+        <record id="group_academy_admin" model="res.groups">
+            <field name="name">Academy Administrator</field>
+            <field name="category_id" ref="base.module_category_administration"/> <!-- Or a custom category -->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Grant full access to Academy Admin for the models -->
+        <record id="access_trainer_profile_academy_admin" model="ir.model.access">
+            <field name="name">academy.trainer.profile.academy_admin</field>
+            <field name="model_id" ref="model_academy_trainer_profile"/>
+            <field name="group_id" ref="group_academy_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_trainer_cv_academy_admin" model="ir.model.access">
+            <field name="name">academy.trainer.cv.academy_admin</field>
+            <field name="model_id" ref="model_academy_trainer_cv"/>
+            <field name="group_id" ref="group_academy_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_training_center_profile_academy_admin" model="ir.model.access">
+            <field name="name">academy.training.center.profile.academy_admin</field>
+            <field name="model_id" ref="model_academy_training_center_profile"/>
+            <field name="group_id" ref="group_academy_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_trainer_domain_academy_admin" model="ir.model.access">
+            <field name="name">academy.trainer.domain.academy_admin</field>
+            <field name="model_id" ref="model_academy_trainer_domain"/>
+            <field name="group_id" ref="group_academy_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+    </data>
+</odoo>

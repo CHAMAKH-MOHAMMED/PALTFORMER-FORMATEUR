@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_trainer_profile_public,academy.trainer.profile.public,model_academy_trainer_profile,base.group_public,1,0,0,0
+access_trainer_profile_portal,academy.trainer.profile.portal,model_academy_trainer_profile,base.group_portal,1,1,1,1
+access_trainer_profile_user,academy.trainer.profile.user,model_academy_trainer_profile,base.group_user,1,1,1,1
+
+access_trainer_domain_public,academy.trainer.domain.public,model_academy_trainer_domain,base.group_public,1,0,0,0
+access_trainer_domain_user,academy.trainer.domain.user,model_academy_trainer_domain,base.group_user,1,1,1,1
+
+access_trainer_cv_public,academy.trainer.cv.public,model_academy_trainer_cv,base.group_public,1,0,0,0
+access_trainer_cv_portal,academy.trainer.cv.portal,model_academy_trainer_cv,base.group_portal,1,1,1,1
+access_trainer_cv_user,academy.trainer.cv.user,model_academy_trainer_cv,base.group_user,1,1,1,1
+
+access_training_center_profile_public,academy.training.center.profile.public,model_academy_training_center_profile,base.group_public,1,0,0,0
+access_training_center_profile_portal,academy.training.center.profile.portal,model_academy_training_center_profile,base.group_portal,1,1,1,1
+access_training_center_profile_user,academy.training.center.profile.user,model_academy_training_center_profile,base.group_user,1,1,1,1

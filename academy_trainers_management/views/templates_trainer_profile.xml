@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="trainer_profile_template" name="Trainer Profile">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <h1 class="text-center"><t t-esc="trainer.name"/></h1>
+                                <p class="text-center text-muted"><t t-esc="trainer.email"/></p>
+                                <hr/>
+                                <div>
+                                    <strong>Phone:</strong> <t t-esc="trainer.phone or 'N/A'"/><br/>
+                                    <strong>Location:</strong> <t t-esc="trainer.location or 'N/A'"/><br/>
+                                    <strong>Availability:</strong> <t t-esc="dict(trainer._fields['availability'].selection).get(trainer.availability) or 'N/A'"/><br/>
+                                    <t t-if="trainer.domains">
+                                        <strong>Expertise Domains:</strong>
+                                        <ul>
+                                            <li t-foreach="trainer.domains" t-as="domain"><t t-esc="domain.name"/></li>
+                                        </ul>
+                                    </t>
+                                </div>
+                                <div class="mt-4">
+                                    <h4>Biography</h4>
+                                    <div t-field="trainer.bio" class="oe_no_empty"/>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h4>CVs</h4>
+                                    <t t-if="trainer.cv_ids">
+                                        <ul>
+                                            <li t-foreach="trainer.cv_ids" t-as="cv">
+                                                <a t-attf-href="/web/content/academy.trainer.cv/{{cv.id}}/cv_file?download=true" t-att-title="cv.description">
+                                                    <t t-esc="cv.name"/>
+                                                </a>
+                                                (<t t-esc="cv.upload_date" t-options='{"widget": "date"}'/>)
+                                            </li>
+                                        </ul>
+                                    </t>
+                                    <t t-else="">
+                                        <p>No CVs uploaded.</p>
+                                    </t>
+                                </div>
+
+                                <!-- Placeholder for Edit Profile and CV Upload for logged in trainer -->
+                                <div class="mt-4" t-if="trainer.user_id and trainer.user_id == request.env.user">
+                                    <a href="/trainers/profile/edit" class="btn btn-secondary">Edit Profile</a>
+                                    <!-- CV Upload form can be part of the edit page or a separate section -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

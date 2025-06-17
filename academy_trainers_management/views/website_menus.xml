@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Main "Trainers" Menu on website header -->
+        <record id="website_menu_trainers_root" model="website.menu">
+            <field name="name">Trainers</field>
+            <field name="url">/trainers</field>
+            <field name="parent_id" ref="website.main_menu"/> <!-- Attaches to the main website menu -->
+            <field name="sequence" type="int">30</field> <!-- Adjust sequence as needed -->
+        </record>
+
+        <!-- Submenu: View All Trainers -->
+        <record id="website_menu_all_trainers" model="website.menu">
+            <field name="name">All Trainers</field>
+            <field name="url">/trainers</field>
+            <field name="parent_id" ref="academy_trainers_management.website_menu_trainers_root"/>
+            <field name="sequence" type="int">1</field>
+        </record>
+
+        <!-- Submenu: Register as Trainer / My Profile -->
+        <!-- This one can be dynamic or use portal features. For simplicity, direct link for now. -->
+        <!-- Ideally, this should lead to /trainers/profile/edit if profile exists, else /trainers/profile/create -->
+        <record id="website_menu_trainer_register_profile" model="website.menu">
+            <field name="name">My Trainer Profile</field>
+            <field name="url">/trainers/profile/edit</field> <!-- Redirects to create if not found by controller -->
+            <field name="parent_id" ref="academy_trainers_management.website_menu_trainers_root"/>
+            <field name="sequence" type="int">5</field>
+            <!-- Show only to logged-in users; Odoo usually handles this if auth='user' on target route -->
+            <!-- We might need a group check if we want to be more specific -->
+        </record>
+
+        <!-- Submenu: Search Trainers (for Training Centers) -->
+        <record id="website_menu_search_trainers" model="website.menu">
+            <field name="name">Search Trainers</field>
+            <field name="url">/trainers/search</field>
+            <field name="parent_id" ref="academy_trainers_management.website_menu_trainers_root"/>
+            <field name="sequence" type="int">10</field>
+            <!-- Could be restricted by group if "Training Center" is a specific group -->
+        </record>
+
+        <!-- Example: Add menu items to user's portal account menu -->
+        <!-- This requires knowing the portal's menu structure or using a reference. -->
+        <!-- Standard portal menu ref is 'portal.portal_account_menu' or similar -->
+        <!-- This is often better done by overriding the portal template or using a specific portal hook if available -->
+
+        <!-- For now, the "My Trainer Profile" under the "Trainers" menu for logged-in users should suffice. -->
+        <!-- If Training Centers have a distinct portal page, a similar menu for them would be added. -->
+
+        <!-- Backend Menus (Optional - for Admin oversight) -->
+        <!-- Root menu for Academy Management in backend -->
+        <record id="menu_academy_root" model="ir.ui.menu">
+            <field name="name">Academy Management</field>
+            <field name="sequence">150</field> <!-- Adjust sequence for top-level positioning -->
+            <field name="web_icon">academy_trainers_management,static/src/img/icon.png</field> <!-- Placeholder icon -->
+        </record>
+
+        <!-- Submenu for Trainers -->
+        <record id="menu_academy_trainers" model="ir.ui.menu">
+            <field name="name">Trainers</field>
+            <field name="parent_id" ref="menu_academy_root"/>
+            <field name="sequence">10</field>
+        </record>
+        <record id="action_trainer_profile_list" model="ir.actions.act_window">
+            <field name="name">Trainer Profiles</field>
+            <field name="res_model">academy.trainer.profile</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+        <record id="menu_action_trainer_profile" model="ir.ui.menu">
+            <field name="name">Trainer Profiles</field>
+            <field name="parent_id" ref="menu_academy_trainers"/>
+            <field name="action" ref="action_trainer_profile_list"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="action_trainer_domain_list" model="ir.actions.act_window">
+            <field name="name">Expertise Domains</field>
+            <field name="res_model">academy.trainer.domain</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="menu_action_trainer_domain" model="ir.ui.menu">
+            <field name="name">Expertise Domains</field>
+            <field name="parent_id" ref="menu_academy_trainers"/>
+            <field name="action" ref="action_trainer_domain_list"/>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Submenu for Training Centers -->
+        <record id="menu_academy_centers" model="ir.ui.menu">
+            <field name="name">Training Centers</field>
+            <field name="parent_id" ref="menu_academy_root"/>
+            <field name="sequence">20</field>
+        </record>
+        <record id="action_training_center_profile_list" model="ir.actions.act_window">
+            <field name="name">Center Profiles</field>
+            <field name="res_model">academy.training.center.profile</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+        <record id="menu_action_training_center_profile" model="ir.ui.menu">
+            <field name="name">Center Profiles</field>
+            <field name="parent_id" ref="menu_academy_centers"/>
+            <field name="action" ref="action_training_center_profile_list"/>
+            <field name="sequence">10</field>
+        </record>
+    </data>
+</odoo>

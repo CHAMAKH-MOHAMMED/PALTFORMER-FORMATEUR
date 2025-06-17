@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="trainers_list_template" name="Trainers List">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="py-5">
+                    <div class="container">
+                        <h1 class="text-center mb-4">Our Trainers</h1>
+                        <div class="row">
+                            <t t-if="trainers">
+                                <t t-foreach="trainers" t-as="trainer">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <!-- Basic trainer info -->
+                                            <div class="card-body">
+                                                <h5 class="card-title"><t t-esc="trainer.name"/></h5>
+                                                <p class="card-text">
+                                                    <t t-if="trainer.domains">
+                                                        <strong>Domains:</strong> <t t-esc="', '.join([d.name for d in trainer.domains])"/><br/>
+                                                    </t>
+                                                    <t t-if="trainer.location">
+                                                        <strong>Location:</strong> <t t-esc="trainer.location"/><br/>
+                                                    </t>
+                                                </p>
+                                                <a t-attf-href="/trainers/{{ trainer.id }}" class="btn btn-primary">View Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div class="col-12">
+                                    <p class="text-center">No trainers found at the moment.</p>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>
